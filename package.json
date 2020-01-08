@@ -1,0 +1,32 @@
+{
+  "name": "stand-app",
+  "version": "1.0.0",
+  "description": "It's The Stand Up App! Featuring individual tasks and group tasks for use during daily stand up meetings, our app will assist in getting the conversation flowing in 5 minutes or less. Update and delete tasks easily!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmelegrito/stand-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "pbkdf2": "^3.0.17",
+    "pg": "^7.15.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.3",
+    "sequelize-cli": "^5.5.1"
+  },
+  "bugs": {
+    "url": "https://github.com/jmelegrito/stand-app/issues"
+  },
+  "homepage": "https://github.com/jmelegrito/stand-app#readme"
+}
