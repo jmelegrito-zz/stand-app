@@ -1,18 +1,24 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('groups', {
+    return queryInterface.createTable('users', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      groupName: {
+      firstName: {
         type: Sequelize.STRING
       },
-      memberID: {
+      lastName: {
         type: Sequelize.STRING
+      },
+      email: {
+        type: Sequelize.STRING
+      },
+      groupdID: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -25,6 +31,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('groups');
+    return queryInterface.dropTable('users');
   }
 };
