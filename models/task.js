@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const task = sequelize.define('tasks', {
+  const task = sequelize.define('task', {
     taskName: DataTypes.STRING,
     taskDetails: DataTypes.STRING,
     taskOwner: DataTypes.INTEGER,
@@ -8,14 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   tasks.associate = function(models) {
     // associations can be defined here
-    tasks.belongsTo(models.users, {
-      as: 'task',
-      foreignKey: 'taskOwner'
-    });
-    tasks.belongsTo(models.groups, {
-      as: 'task',
-      foreignKey: 'projectID'
-    })
+  
   };
-  return tasks;
+  return task;
 };
