@@ -131,9 +131,9 @@ app.post('/',
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 passport.use(new GoogleStrategy({
-    clientID: "test",
-    clientSecret: "test",
-    callbackURL: "http://www.example.com/auth/google/callback"
+  clientID: "test",
+  clientSecret: "test",
+    callbackURL: "http://127.0.0.1:3000/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
     User.findOrCreate({ googleId: profile.id }, function (err, user) {
