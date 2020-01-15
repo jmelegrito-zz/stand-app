@@ -14,10 +14,16 @@ module.exports = {
       lastName: {
         type: Sequelize.STRING
       },
+      username: {
+        type: Sequelize.STRING
+      },
+      password: {
+        type: Sequelize.STRING(1000)
+      },
       email: {
         type: Sequelize.STRING
       },
-      groupdID: {
+      groupsID: {
         type: Sequelize.INTEGER,
         references: {
           model: {

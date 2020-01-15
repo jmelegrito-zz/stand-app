@@ -5,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     taskDetails: DataTypes.STRING,
     taskOwner: DataTypes.INTEGER,
     projectID: DataTypes.INTEGER
-  }, {});
-  tasks.associate = function(models) {
+  }, {freezeTableName: true});
+  task.associate = function(models) {
     // associations can be defined here
   
   };
