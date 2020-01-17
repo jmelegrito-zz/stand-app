@@ -1,5 +1,3 @@
-<!-- views/pages/index.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,28 +10,61 @@
 </header>
 
 <main>
-    <div class="jumbotron">
-        <h1>This is great</h1>
-        <p>Welcome to templating using EJS</p>
+    <div class="row">
+        <div class="col-sm-4 text-center">        
+            <div class="text-center">
+                <img src="/images/standapp.png" class="img-fluid" alt="StandApp">
+            </div>
+            <div class="description-text" >
+                <p>It's The Stand Up App! Featuring individual tasks and group tasks for use during daily stand up meetings, our app will assist in getting the conversation flowing in 5 minutes or less. Update and delete tasks easily!</p>
+            </div>
+        </div>
+        <div class="col-sm-8">    
+            <form>
+                <div class="form-group row">
+                  <label for="colFormLabel" class="col-sm-2 col-form-label">First Name</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="firstName" placeholder="John">
+                  </div>
+                </div>
+                <div class="form-group row">
+                    <label for="colFormLabel" class="col-sm-2 col-form-label">Last Name</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="lastName" placeholder="Doe">
+                    </div>
+                  </div>
+                <div class="form-group row">
+                    <label for="colFormLabel" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" id="email" placeholder=""johndoe@gmail.com">
+                    </div>
+                </div>
+              </form>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Groups
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <button class="dropdown-item" type="button">Action</button>
+                  <button class="dropdown-item" type="button">Another action</button>
+                  <button class="dropdown-item" type="button">Something else here</button>
+                </div>
+              </div>
+              <hr>
+              <form>
+                <div class="form-group row">
+                  <label for="colFormLabel" class="col-sm-2 col-form-label">Group Name</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="groupName" placeholder="John">
+                  </div>
+                </div>
+              </form>
+        </div>
+    
+       
+    
     </div>
-</main>
-
-<!-- views/pages/index.ejs -->
-...
-<h2>Variable</h2>
-<p><%= tagline %></p>
-...
-
-<!-- views/pages/index.ejs -->
-...
-<h2>Loop</h2>
-
-<ul>
-    <% drinks.forEach(function(drink) { %>
-        <li><%= drink.name %> - <%= drink.drunkness %></li>
-    <% }); %>
-</ul>
-...
+    </main>
 
 <footer>
     <%- include ("../partials/footer") %>

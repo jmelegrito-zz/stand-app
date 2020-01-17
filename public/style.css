@@ -5,3 +5,7 @@
 .navbar {
     margin-bottom: 3em;
 }
+.description-text {
+    padding: 10px;
+    text-align: left;
+}
