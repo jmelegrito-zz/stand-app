@@ -9,6 +9,8 @@ var pbkdf2 = require('pbkdf2');
 var salt = "XZoLh12Teu";
 
 function encryptionPassword(password) {
+  console.log(password)
+  console.log(typeof password)
   var key = pbkdf2.pbkdf2Sync(
     password, salt, 36000, 256, 'sha256'
   );
@@ -19,7 +21,7 @@ function encryptionPassword(password) {
 
 app.use(session({
   secret: "cats", 
-  resave: false, 
+  resave: true, 
   saveUninitialized: true
 }));
 app.use(bodyParser.json());
@@ -52,11 +54,12 @@ app.get('/profile', function(req, res) {
 
 // tasks page 
 app.get('/tasks', function(req, res) {
+  if(req.isAuthenticated()) {
     res.render('pages/tasks');
+  } else {
+    res.send("You are not authorized to access this page.");
+  }
 });
-
-
-
 
 /*  PASSPORT SETUP  */
 
@@ -64,17 +67,9 @@ const passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/success', function (req, res) {
-  if(req.isAuthenticated()) {
-    res.send("Welcome " + req.user.username + "!!");
-  } else {
-    res.send("You are not authorized to access this page.");
-  }
-});
-
 app.get('/error', function(req, res) {res.send("There was an error logging you in. Please try again later.")});
 
-app.get('/signout', function(req, res) {
+app.get('/sign-out', function(req, res) {
   if(req.isAuthenticated()){
     console.log("The user is logging out.");
     req.logOut();
@@ -89,13 +84,10 @@ passport.serializeUser(function(user, cb) {
 });
 
 passport.deserializeUser(function(id, cb) {
-  User.findById(id, function(err, user) {
-    cb(err, user);
+  User.findOne({ where: { id: id } }).then(function (user) {
+    cb(null, user);
   });
 });
-
-
-
 
 
 /* PASSPORT LOCAL AUTHENTICATION */
@@ -110,12 +102,15 @@ passport.use(new LocalStrategy(
       }
     }).then(function (user) {
       if (!user) {
+        console.log("no user")
         return done(null, false);
       }
 
       if (user.password != encryptionPassword(password)) {
+        console.log("wrong password")
         return done(null, false);
       }
+      console.log("user logged in")
       return done(null, user);
     }).catch(function (err) {
       return done(err);
@@ -123,11 +118,8 @@ passport.use(new LocalStrategy(
   }
 ));
 
-app.post('/',
-  passport.authenticate('local', { failureRedirect: '/error' }),
-  function(req, res) {
-    res.redirect('/tasks?username='+req.user.username);
-  });
+app.post('/sign-in',
+  passport.authenticate('local', { successRedirect: "/tasks", failureRedirect: '/error' }));
 
   app.post("/sign-up", function (req, response) {
     models.user.create({
@@ -139,7 +131,7 @@ app.post('/',
       groupsID: req.body.groupsID
     })
       .then(function (user) {
-        response.send(user);
+        response.redirect("/tasks?"+user.id);
       });
   });
 
@@ -158,20 +150,29 @@ app.post('/',
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 passport.use(new GoogleStrategy({
-  clientID: "test",
-  clientSecret: "test",
+  clientID: "92085679053-5sktg8v6ljejhchh96mum7dsnk62dq6i.apps.googleusercontent.com",
+  clientSecret: "TWN3hhg9gga4KehBxxYWqOZ4",
     callbackURL: "http://127.0.0.1:3000/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
     console.log (profile)
-    // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-    //   return cb(err, user);
-    }));
+    console.log (typeof profile.id)
+    models.user.findOrCreate({where: { 
+      lastName: profile.name.familyName,
+      firstName: profile.name.givenName, 
+      googleID: profile.id,
+      email: profile.emails[0].value,
+    }}).then( function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
 
 
 //Express google template
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile'] }));
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
+  'https://www.googleapis.com/auth/userinfo.email'] }));
 
 app.get('/auth/google/callback', 
   passport.authenticate('google', { failureRedirect: '/login' }),

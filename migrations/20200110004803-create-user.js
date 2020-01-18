@@ -23,6 +23,9 @@ module.exports = {
       email: {
         type: Sequelize.STRING
       },
+      googleID: {
+        type: Sequelize.STRING
+      },
       groupsID: {
         type: Sequelize.INTEGER,
         references: {
