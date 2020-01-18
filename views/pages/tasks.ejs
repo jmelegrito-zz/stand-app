@@ -18,9 +18,7 @@
   <main>
     <div class="row">
         <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-            <button class="btn btn-danger offset-10" href="#" role="button" style="max-width: 3rem;">
-                <span id='close' onclick='this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); return false;'>x</span>
-            </button>
+            <span id='close' onclick='this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); return false;'>X</span>
             <div class="card-header">Task Name</div>
             <div class="card-header">Task Details</div>
             <div class="card-header">Task Owner</div>
@@ -28,15 +26,14 @@
               <h5 class="card-title">Success card title</h5>
               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
             </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
-                Task Status
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                <button class="dropdown-item" type="button">Incomplete</button>
-                <button class="dropdown-item" type="button">In Progress</button>
-                <button class="dropdown-item" type="button">Completed</button>
+            <div class="form-group row btn-group offset-2">
+                <div class="col-sm-10">
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        <option value="" disabled selected>Task Status</option>
+                        <option class="btn-danger">Incomplete</option>
+                        <option>In Progress</option>
+                        <option>Completed</option>
+                    </select>
                 </div>
             </div>
             <a class="btn btn-primary offset-4" href="#" role="button"style="max-width: 6rem;">SAVE</a>
