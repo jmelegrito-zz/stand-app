@@ -12,3 +12,7 @@ body {
     height: 100%;
     padding: 10px;
 }
+a {
+    text-decoration: none;
+    color: black;
+}
