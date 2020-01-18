@@ -30,5 +30,10 @@ app.get('/profile', function(req, res) {
     res.render('pages/profile');
 });
 
+// tasks page 
+app.get('/tasks', function(req, res) {
+    res.render('pages/tasks');
+});
+
 app.listen(8080);
 console.log('8080 is the magic port');
