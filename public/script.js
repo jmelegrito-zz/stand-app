@@ -11,14 +11,14 @@ $(document).ready(function () {
     //     $.post("/sign-up", signUpDetails)
     //     console.log(signUpDetails)
     // });
-    $("#group-btn").click(function () {
-        var groupSignUpDetails = {};
-        groupSignUpDetails.groupName = $("#groupName").val();
-        JSON.stringify(groupSignUpDetails)
-        $.post("/group-sign-up", groupSignUpDetails,function(){
-            console.log(groupSignUpDetails)
-        })
-    });
+    // $("#group-btn").click(function () {
+    //     var groupSignUpDetails = {};
+    //     groupSignUpDetails.groupName = $("#groupName").val();
+    //     JSON.stringify(groupSignUpDetails)
+    //     $.post("/group-sign-up", groupSignUpDetails,function(){
+    //         console.log(groupSignUpDetails)
+    //     })
+    // });
     // $("#local-btn-in").click(function() {
     //     var signInDetails = {};
     //     signInDetails.username = $("#username").val();

@@ -71,29 +71,29 @@
                             </select>
                         </div>
                     </div>
-                    <div class="local-signin col-sm-8">
-                        <button type="submit" class="btn-local btn btn-success" id="local-btn">Sign-Up</button>
+
+                    <div class="row">
+                        <div class="local-signin col-sm-8">
+                            <button type="submit" class="btn-local btn btn-success" id="local-btn">Sign-Up</button>
+                        </div>
+                        <div class="google-signin col-sm-4">
+                            <a href="/auth/google" class="btn-google" id="google-btn"><img
+                                    src="/images/btn_google_signin_dark_normal_web.png"></a>
+                        </div>
+    
                     </div>
                 </form>
-                <div class="row">
-                    <div class="google-signin col-sm-4">
-                        <a href="/auth/google" class="btn-google" id="google-btn"><img
-                                src="/images/btn_google_signin_dark_normal_web.png"></a>
-                    </div>
-
-                </div>
+                
                 <hr>
-                <form>
+                <form action="/group-sign-up" method="post">
                     <div class="form-group row">
                         <label for="colFormLabel" class="col-sm-2 col-form-label">Group Name</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="groupName" placeholder="John">
+                            <input type="text" class="form-control" id="groupName" name="groupName" placeholder="John">
                         </div>
                     </div>
+                    <button class="btn-group" id="group-btn" type="submit">Group Sign-Up</button>
                 </form>
-                <div class="group-signup">
-                    <button class="btn-group" id="group-btn">Group Sign-Up</button>
-                </div>
             </div>
 
 
