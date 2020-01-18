@@ -12,3 +12,16 @@ body {
     height: 100%;
     padding: 10px;
 }
+
+/* #close {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-end;
+    color:white;
+    border: 1px solid white;
+    background-color: red;
+    border-radius: 25%;
+    width: fit-content;
+    margin-left: 91.9%;
+    padding: 5px;
+} */
