@@ -1,0 +1,52 @@
+<!-- views/pages/profile.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <%- include ("../partials/head") %>
+</head>
+
+<body class="container">
+
+  <header>
+    <%- include ("../partials/header") %>
+  </header>
+
+  <main>
+    <div class="row">
+        <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+            <button class="btn btn-danger offset-10" href="#" role="button" style="max-width: 3rem;">
+                <span id='close' onclick='this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); return false;'>x</span>
+            </button>
+            <div class="card-header">Task Name</div>
+            <div class="card-header">Task Details</div>
+            <div class="card-header">Task Owner</div>
+            <div class="card-body">
+              <h5 class="card-title">Success card title</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                Task Status
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                <button class="dropdown-item" type="button">Incomplete</button>
+                <button class="dropdown-item" type="button">In Progress</button>
+                <button class="dropdown-item" type="button">Completed</button>
+                </div>
+            </div>
+            <a class="btn btn-primary offset-4" href="#" role="button"style="max-width: 6rem;">SAVE</a>
+          </div>
+  </main>
+
+  <footer>
+    <%- include ("../partials/footer") %>
+  </footer>
+
+</body>
+
+</html>
