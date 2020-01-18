@@ -1,11 +1,14 @@
-* {
-    color: gray;
+body {
+    background-color: gray;
 }
-
 .navbar {
     margin-bottom: 3em;
 }
 .description-text {
     padding: 10px;
     text-align: left;
+}
+.btn-local {
+    height: 100%;
+    padding: 10px;
 }

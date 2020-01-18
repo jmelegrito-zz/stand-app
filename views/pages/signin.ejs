@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include ("../partials/head") %>
+</head>
+
+<body class="container">
+
+    <header>
+        <%- include ("../partials/header") %>
+    </header>
+
+    <main>
+        <div class="row">
+            <div class="col-sm-4 text-center">
+                <div class="text-center">
+                    <img src="/images/standapp.png" class="img-fluid" alt="StandApp">
+                </div>
+                <div class="description-text">
+                    <p>It's The Stand Up App! Featuring individual tasks and group tasks for use during daily stand up
+                        meetings, our app will assist in getting the conversation flowing in 5 minutes or less. Update
+                        and delete tasks easily!</p>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <form>
+                    <div class="form-group row">
+                        <label for="colFormLabel" class="col-sm-2 col-form-label">Username</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="username" placeholder="Username">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="colFormLabel" class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="password" placeholder="Password">
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+
+                    <div class="local-signin col-sm-8">
+                        <a href=""><button class="btn-local" id="local-btn">Sign-Up</button class="btn-local"
+                                id="local-btn"></a>
+                    </div>
+                    <div class="google-signin col-sm-4">
+                        <a href="" class="btn-google" id="google-btn"><img
+                                src="/images/btn_google_signin_dark_normal_web.png"></a>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </main>
+
+    <footer>
+        <%- include ("../partials/footer") %>
+    </footer>
+
+</body>
+
+</html>
