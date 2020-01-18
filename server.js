@@ -1,26 +1,46 @@
-// server.js
-// load the things we need
+/*  EXPRESS SETUP  */
 var express = require('express');
 var app = express();
+const models = require('./models');
+const session = require("express-session");
+const bodyParser = require('body-parser');
+
+var pbkdf2 = require('pbkdf2');
+var salt = "XZoLh12Teu";
+
+function encryptionPassword(password) {
+  var key = pbkdf2.pbkdf2Sync(
+    password, salt, 36000, 256, 'sha256'
+  );
+  var hash = key.toString('hex');
+
+  return hash;
+}
+
+app.use(session({
+  secret: "cats", 
+  resave: false, 
+  saveUninitialized: true
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(express.static(__dirname + '/public'));
+
+const port = 3000;
+app.listen(port , () => console.log('App listening on port ' + port));
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
-// use res.render to load up an ejs view file
-
 // index page 
 app.get('/', function(req, res) {
-    var drinks = [
-        { name: 'Bloody Mary', drunkness: 3 },
-        { name: 'Martini', drunkness: 5 },
-        { name: 'Scotch', drunkness: 10 }
-    ];
-    var tagline = "Any code of your own that you haven't looked at for six or more months might as well have been written by someone else.";
+    res.render('pages/index', {});
+});
 
-    res.render('pages/index', {
-        drinks: drinks,
-        tagline: tagline
-    });
+// signin page 
+app.get('/signin', function(req, res) {
+    res.render('pages/signin', {});
 });
 
 app.use(express.static(__dirname + '/public'));
@@ -35,5 +55,127 @@ app.get('/tasks', function(req, res) {
     res.render('pages/tasks');
 });
 
-app.listen(8080);
-console.log('8080 is the magic port');
+
+
+
+/*  PASSPORT SETUP  */
+
+const passport = require('passport');
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('/success', function (req, res) {
+  if(req.isAuthenticated()) {
+    res.send("Welcome " + req.user.username + "!!");
+  } else {
+    res.send("You are not authorized to access this page.");
+  }
+});
+
+app.get('/error', function(req, res) {res.send("There was an error logging you in. Please try again later.")});
+
+app.get('/signout', function(req, res) {
+  if(req.isAuthenticated()){
+    console.log("The user is logging out.");
+    req.logOut();
+    res.send("The user has logged out.");
+  } else {
+    res.send("You don't have a session open.");
+  }
+});
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+  User.findById(id, function(err, user) {
+    cb(err, user);
+  });
+});
+
+
+
+
+
+/* PASSPORT LOCAL AUTHENTICATION */
+
+const LocalStrategy = require('passport-local').Strategy;
+
+passport.use(new LocalStrategy(
+  function (username, password, done) {
+    models.user.findOne({
+      where: {
+        username: username
+      }
+    }).then(function (user) {
+      if (!user) {
+        return done(null, false);
+      }
+
+      if (user.password != encryptionPassword(password)) {
+        return done(null, false);
+      }
+      return done(null, user);
+    }).catch(function (err) {
+      return done(err);
+    });
+  }
+));
+
+app.post('/',
+  passport.authenticate('local', { failureRedirect: '/error' }),
+  function(req, res) {
+    res.redirect('/tasks?username='+req.user.username);
+  });
+
+  app.post("/sign-up", function (req, response) {
+    models.user.create({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      username: req.body.username, 
+      email: req.body.email,
+      password: encryptionPassword(req.body.password),
+      groupsID: req.body.groupsID
+    })
+      .then(function (user) {
+        response.send(user);
+      });
+  });
+
+  app.post("/group-sign-up", function (req, response) {
+    models.group.create({
+      groupName: req.body.groupName
+    })
+      .then(function (user) {
+        response.send(user);
+      });
+  });
+
+
+
+//GoogleStrategy template OAuth2.0 API
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+passport.use(new GoogleStrategy({
+  clientID: "test",
+  clientSecret: "test",
+    callbackURL: "http://127.0.0.1:3000/auth/google/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    console.log (profile)
+    // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+    //   return cb(err, user);
+    }));
+
+
+//Express google template
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile'] }));
+
+app.get('/auth/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/tasks');
+  });

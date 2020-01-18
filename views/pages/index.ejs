@@ -24,6 +24,9 @@
                 </div>
             </div>
             <div class="col-sm-8">
+                <div class="alert alert-success" role="alert">
+                    Already signed up? <a href="/signin">Click here to sign in.</a>
+                  </div>
                 <form>
                     <div class="form-group row">
                         <label for="colFormLabel" class="col-sm-2 col-form-label">First Name</label>
@@ -58,13 +61,13 @@
                     <div class="form-group row">
                         <label for="colFormLabel" class="col-sm-2 col-form-label">Group</label>
                         <div class="col-sm-10">
-                            <select class="form-control" id="exampleFormControlSelect1">
+                            <select class="form-control" id="selectedGroup">
                                 <option value="" disabled selected>Select your group</option>
-                                <option>Group 1</option>
-                                <option>Group 2</option>
-                                <option>Group 3</option>
-                                <option>Group 4</option>
-                                <option>Group 5</option>
+                                <option value="1">Group 1</option>
+                                <option value="2">Group 2</option>
+                                <option value="3">Group 3</option value="1">
+                                <option value="4">Group 4</option value="1">
+                                <option value="5">Group 5</option value="1">
                             </select>
                         </div>
                     </div>
@@ -72,11 +75,10 @@
                 <div class="row">
 
                     <div class="local-signin col-sm-8">
-                        <a href=""><button class="btn-local" id="local-btn">Sign-Up</button class="btn-local"
-                                id="local-btn"></a>
+                        <button class="btn-local" id="local-btn">Sign-Up</button>
                     </div>
                     <div class="google-signin col-sm-4">
-                        <a href="" class="btn-google" id="google-btn"><img
+                        <a href="/auth/google" class="btn-google" id="google-btn"><img
                                 src="/images/btn_google_signin_dark_normal_web.png"></a>
                     </div>
 
@@ -91,7 +93,7 @@
                     </div>
                 </form>
                 <div class="group-signup">
-                    <a href=""><button class="btn-group" id="group-btn">Group Sign-Up</button></a>
+                    <button class="btn-group" id="group-btn">Group Sign-Up</button>
                 </div>
             </div>
 
