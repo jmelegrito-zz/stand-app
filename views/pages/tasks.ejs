@@ -35,13 +35,18 @@
         </div>
         <div class="taskcards">
           <h3>Current Tasks</h3>
-          <%- include ("../partials/taskcard") %></div>
+          <div class="cardDisplay">
+          <% tasks.forEach(function(task){ %>
+            <%- include ("../partials/taskcard", {task: task}); %>
+          <% }); %>
+        </div>
+          </div>
       </div>
       <div class="group-tasks col-sm-4">
         <h3>Group tasks</h3>
-        <%- include ("../partials/taskcarddisplay") %>
-        <%- include ("../partials/taskcarddisplay") %>
-        <%- include ("../partials/taskcarddisplay") %>
+        <% groupTask.forEach(function(groupTasks){ %>
+          <%- include ("../partials/taskcarddisplay", {groupTasks: groupTasks}); %>
+        <% }); %>
       </div>
     </div>
 
