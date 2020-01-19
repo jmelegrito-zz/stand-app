@@ -53,9 +53,7 @@ passport.serializeUser(function (user, cb) {
 });
 
 passport.deserializeUser(function (id, cb) {
-  console.log(id)
   models.user.findOne({ where: { id: id } }).then(function (user) {
-    console.log("user found")
     cb(null, user);
   });
 });
@@ -132,7 +130,7 @@ app.get('/auth/google',
 app.get('/auth/google/redirect',
   passport.authenticate('google', { failureRedirect: '/signin', failureFlash: "here 2" }),
   function (req, res) {
-    res.redirect('/tasks' + "?username=" + req.user.username);
+    res.redirect('/tasks', {user: req.user});
   });
 
 
@@ -170,7 +168,7 @@ app.get('/profile', function (req, res) {
 // tasks page 
 app.get('/tasks', function (req, res) {
   if (req.isAuthenticated()) {
-    res.render('pages/tasks');
+    res.render('pages/tasks', {user: req.user});
   } else {
     res.send("You are not authorized to access this page.");
   }
@@ -179,7 +177,7 @@ app.get('/tasks', function (req, res) {
 app.post('/sign-in',
   passport.authenticate('local', { failureRedirect: '/error' }),
   function (req, res) {
-    res.redirect('/tasks' + "?username=" + req.user.username);
+    res.redirect('/tasks');
   });
 
 app.post("/sign-up", function (req, response) {
@@ -192,7 +190,7 @@ app.post("/sign-up", function (req, response) {
     groupsID: req.body.groupsID
   })
     .then(function (user) {
-      response.redirect("/tasks?" + user.id);
+      response.redirect("/tasks", {user: req.user});
     });
 });
 
@@ -204,6 +202,19 @@ app.post("/group-sign-up", function (req, response) {
       response.send(user);
     });
 });
+
+app.post("/new-task", function (req, response){
+  console.log(req.user)
+  console.log(req.user.id)
+  models.task.create({
+    taskName: req.body.taskName,
+    taskDetails: req.body.taskDetails,
+    taskOwner: req.user.id,
+    projectID: req.user.groupsID
+  }).then(function(){
+    response.redirect("/tasks")
+  });
+})
 
 
 
