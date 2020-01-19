@@ -130,7 +130,7 @@ app.get('/auth/google',
 app.get('/auth/google/redirect',
   passport.authenticate('google', { failureRedirect: '/signin', failureFlash: "here 2" }),
   function (req, res) {
-    res.redirect('/tasks', {user: req.user});
+    res.redirect('/tasks');
   });
 
 
@@ -168,9 +168,27 @@ app.get('/profile', function (req, res) {
 // tasks page 
 app.get('/tasks', function (req, res) {
   if (req.isAuthenticated()) {
-    res.render('pages/tasks', {user: req.user});
+    console.log(req.user)
+    const personal = models.task.findAll({
+      where:{
+        taskOwner: req.user.id,
+      }
+    })
+    const group = models.task.findAll({
+      where:{
+        projectID: req.user.groupsID,
+      }
+    })
+Promise
+    .all([personal,group])
+    .then(function(responses){
+      console.log(responses.length)
+      console.log(responses[0])
+      console.log(responses[1])
+      res.render('pages/tasks', {tasks: responses[0], groupTask: responses[1]})
+    })
   } else {
-    res.send("You are not authorized to access this page.");
+    res.render("/signin");
   }
 });
 
@@ -190,7 +208,7 @@ app.post("/sign-up", function (req, response) {
     groupsID: req.body.groupsID
   })
     .then(function (user) {
-      response.redirect("/tasks", {user: req.user});
+      response.redirect("/tasks");
     });
 });
 
@@ -204,8 +222,6 @@ app.post("/group-sign-up", function (req, response) {
 });
 
 app.post("/new-task", function (req, response){
-  console.log(req.user)
-  console.log(req.user.id)
   models.task.create({
     taskName: req.body.taskName,
     taskDetails: req.body.taskDetails,
