@@ -71,3 +71,12 @@ a {
     color: white;
     opacity: 1;
 }
+.groupSelection {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+.ordivider {
+    margin: 10px;
+    width: 100%;
+}

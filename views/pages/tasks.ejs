@@ -45,14 +45,15 @@
       <div class="group-tasks col-sm-4">
         <h3>Group tasks</h3>
         <div class="groupCardDisplay">
-          <% groupTask.forEach(function(groupTasks){ %>
+          <% if (!verifyGroup.groupsID) { %>
+          <%- include ("../partials/getGroup", {groups: groups}); %>
+          <% } else { groupTask.forEach(function(groupTasks){ %>
           <%- include ("../partials/taskcarddisplay", {groupTasks: groupTasks}); %>
           <% }); %>
+          <% } %>
         </div>
       </div>
     </div>
-
-
   </main>
 
   <footer>
