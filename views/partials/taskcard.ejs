@@ -1,0 +1,19 @@
+<div class="card text-white bg-dark mb-3">
+    <div class="card-header">
+        <h5 class="card-title">Task:</h5> <%= task.taskName %>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Details:</h5> <%= task.taskDetails %>
+    </div>
+        <form class="form-group btn-group">
+        <select class="form-control" id="taskStatus" name="taskStatus">
+            <option value="" disabled selected>Task Status</option>
+            <option value="Not Started">Not Started</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+        </select>
+        <div>
+    <button type="submit" class="btn btn-primary" href="#">SAVE</button>
+</div>
+</form>
+</div>

@@ -1,5 +1,6 @@
 body {
     background-color: gray;
+    padding-top: 70px;
 }
 .navbar {
     margin-bottom: 3em;
@@ -15,4 +16,19 @@ body {
 a {
     text-decoration: none;
     color: black;
+}
+.group-tasks {
+    border-left: 5px solid black;
+}
+.taskcards {
+    border-top: 5px solid black;
+    padding-top: 5px;
+}
+.card{
+    width: 240px;
+    padding: 5px;
+}
+.cardDisplay {
+    display: flex;
+    justify-content: space-evenly;
 }
