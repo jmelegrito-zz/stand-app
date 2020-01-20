@@ -137,6 +137,7 @@ app.get('/sign-out', function (req, res) {
 
 // index page 
 app.get('/', function (req, res) {
+  req.logOut();
   models.group.findAll({}).then(function(groups){
     res.render('pages/index', {groups:groups});
   })
