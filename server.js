@@ -268,4 +268,3 @@ app.post("/update-profile/:id", function(req, response){
     response.redirect("/profile")
   })
 })
-
