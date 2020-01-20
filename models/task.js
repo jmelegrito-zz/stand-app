@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     projectID: DataTypes.INTEGER
   }, {freezeTableName: true});
   task.associate = function(models) {
-    task.hasOne(models.user, {
-      foreignKey: 'id'
+    task.belongsTo(models.user, {
+      foreignKey: "taskOwner"
     })
   };
   return task;

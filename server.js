@@ -174,16 +174,23 @@ app.get('/tasks', function (req, res) {
       }
     })
     const group = models.task.findAll({
+      include: [models.user],
       where:{
         projectID: req.user.groupsID,
       },
       raw: true
     })
     const owner = models.user.findAll({})
+    const groupCheck = models.user.findOne({
+      where:{
+        id: req.user.id
+      }
+    })
+    const grabGroup = models.group.findAll({})
 Promise
-    .all([personal,group,owner])
+    .all([personal,group,owner,groupCheck,grabGroup])
     .then(function(responses){
-      res.render('pages/tasks', {tasks: responses[0], groupTask: responses[1], owner: responses[2]})
+      res.render('pages/tasks', {tasks: responses[0], groupTask: responses[1], owner: responses[2], verifyGroup: responses[3], groups: responses[4]})
     })
   } else {
     res.redirect("/signin");
@@ -203,10 +210,12 @@ app.post("/sign-up", function (req, response) {
     username: req.body.username,
     email: req.body.email,
     password: encryptionPassword(req.body.password),
-    groupsID: req.body.groupsID
+    // groupsID: req.body.groupsID
   })
     .then(function (user) {
-      response.redirect("/tasks");
+      req.login(user, function(){
+        response.redirect("/tasks");
+      })
     });
 });
 
@@ -253,6 +262,15 @@ app.post("/update-task-status/:id", function(req, response){
 app.post("/update-task-owner/:id", function(req, response){
   models.task.update(
     { taskOwner: req.body.taskOwner,
+     },
+    { where: { id: req.params.id } }
+  ).then(function(){
+    response.redirect("/tasks")
+  })
+})
+app.post("/update-groupsID/:id", function(req, response){
+  models.user.update(
+    { groupsID: req.body.groupsID,
      },
     { where: { id: req.params.id } }
   ).then(function(){
