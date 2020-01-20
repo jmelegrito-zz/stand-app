@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     groupsID: DataTypes.INTEGER
   }, {freezeTableName: true});
   user.associate = function(models) {
+
   };
   return user;
 };
