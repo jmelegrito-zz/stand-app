@@ -6,6 +6,7 @@ const session = require("express-session");
 const bodyParser = require('body-parser');
 const cookieSession = require("cookie-session")
 const cookieParser = require("cookie-parser")
+const Sequelize = require("sequelize")
 
 var pbkdf2 = require('pbkdf2');
 var salt = "XZoLh12Teu";
@@ -48,6 +49,7 @@ const passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 passport.serializeUser(function (user, cb) {
   cb(null, user.id);
 });
@@ -57,7 +59,6 @@ passport.deserializeUser(function (id, cb) {
     cb(null, user);
   });
 });
-
 
 /* PASSPORT LOCAL AUTHENTICATION */
 
@@ -95,29 +96,19 @@ passport.use(new GoogleStrategy({
   clientSecret: "TWN3hhg9gga4KehBxxYWqOZ4",
   callbackURL: "/auth/google/redirect"
 },
-  function (accessToken, refreshToken, profile, cb) {
-    models.user.findOne({
-      where: {
-        googleID: profile.id
-      }
-    }).then(function (currentUser) {
-      if (currentUser) {
-        return cb(null, currentUser)
-      } else {
-        models.user.create({
-          where: {
-            lastName: profile.name.familyName,
-            firstName: profile.name.givenName,
-            googleID: profile.id,
-            email: profile.emails[0].value,
-          }
-        }).then(function (err, user) {
-          return cb(null, user);
-        });
-      }
-    })
-  }
-));
+  function (accessToken, refreshToken, profile, done) {
+    models.user.findOrCreate({where:{
+        lastName: profile.name.familyName,
+        firstName: profile.name.givenName,
+        googleID: profile.id,
+        email: profile.emails[0].value,
+      }}).then(function (user) {
+        if (user){
+          return done(null, user[0]);
+        } else{
+          return done(null, user[0]);
+      }})
+      }));
 
 
 //Express google template
@@ -128,11 +119,10 @@ app.get('/auth/google',
   }));
 
 app.get('/auth/google/redirect',
-  passport.authenticate('google', { failureRedirect: '/signin', failureFlash: "here 2" }),
+  passport.authenticate('google', { failureRedirect: '/signin'}),
   function (req, res) {
     res.redirect('/tasks');
   });
-
 
 
 
@@ -144,13 +134,17 @@ app.get('/sign-out', function (req, res) {
     req.logOut();
     res.redirect("/signin");
   } else {
-    res.send("You don't have a session open.");
+    console.log("no open session")
+    res.redirect("/signin");
   }
 });
 
 // index page 
 app.get('/', function (req, res) {
-  res.render('pages/index', {});
+  models.group.findAll({}).then(function(groups){
+    res.render('pages/index', {groups:groups});
+  })
+  
 });
 
 // signin page 
@@ -168,7 +162,6 @@ app.get('/profile', function (req, res) {
 // tasks page 
 app.get('/tasks', function (req, res) {
   if (req.isAuthenticated()) {
-    console.log(req.user)
     const personal = models.task.findAll({
       where:{
         taskOwner: req.user.id,
@@ -177,18 +170,17 @@ app.get('/tasks', function (req, res) {
     const group = models.task.findAll({
       where:{
         projectID: req.user.groupsID,
-      }
+      },
+      raw: true
     })
+    const owner = models.user.findAll({})
 Promise
-    .all([personal,group])
+    .all([personal,group,owner])
     .then(function(responses){
-      console.log(responses.length)
-      console.log(responses[0])
-      console.log(responses[1])
-      res.render('pages/tasks', {tasks: responses[0], groupTask: responses[1]})
+      res.render('pages/tasks', {tasks: responses[0], groupTask: responses[1], owner: responses[2]})
     })
   } else {
-    res.render("/signin");
+    res.redirect("/signin");
   }
 });
 
@@ -217,7 +209,7 @@ app.post("/group-sign-up", function (req, response) {
     groupName: req.body.groupName
   })
     .then(function (user) {
-      response.send(user);
+      response.render("/");
     });
 });
 
@@ -228,9 +220,40 @@ app.post("/new-task", function (req, response){
     taskOwner: req.user.id,
     projectID: req.user.groupsID
   }).then(function(){
+    console.log("adding new task")
     response.redirect("/tasks")
   });
 })
 
+app.post("/delete-task", function(req, response){
+  models.task.create({
+    where: {
+      id: req.body.id
+    }
+  }).then(function(){
+    response.redirect("/tasks")
+  })
+})
 
+app.post("/update-task-status/:id", function(req, response){
+  models.task.update(
+    { taskStatus: req.body.taskStatus,
+      taskName: req.body.taskName,
+      taskDetails: req.body.taskDetails
+     },
+    { where: { id: req.params.id } }
+  ).then(function(){
+    response.redirect("/tasks")
+  })
+})
+
+app.post("/update-task-owner/:id", function(req, response){
+  models.task.update(
+    { taskOwner: req.body.taskOwner,
+     },
+    { where: { id: req.params.id } }
+  ).then(function(){
+    response.redirect("/tasks")
+  })
+})
 

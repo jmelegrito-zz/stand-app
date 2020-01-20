@@ -27,8 +27,47 @@ a {
 .card{
     width: 240px;
     padding: 5px;
+    margin-right: 2px;
+}
+.groupCard{
+    width: 220px;
+    padding: 5px;
+    margin-right: 2px;
 }
 .cardDisplay {
     display: flex;
-    justify-content: space-evenly;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+.groupCardDisplay {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+.delete-button {
+    display: flex;
+    justify-content: center;
+}
+.editTask{
+    border: 0;
+    margin-top: 5px;
+}
+.taskstats {
+    width:135px;
+}
+.taskstatsrow {
+    display: flex;
+    justify-content: flex-start;
+}
+.hideBackground {
+    background: transparent;
+}
+input[type="text"]::placeholder {
+    color: white;
+    opacity: 1;
+}
+
+input[type="text"] {
+    color: white;
+    opacity: 1;
 }
