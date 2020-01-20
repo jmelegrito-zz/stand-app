@@ -1,6 +1,24 @@
-
-    <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-        <div class="card-header"><h5 class="card-title">Task:</h5> <%= groupTasks.taskName %></div>
-        <div class="card-header"><h5 class="card-title">Details:</h5> <%= groupTasks.taskDetails %></div>
-        <div class="card-body"><h5 class="card-title">Owner:</h5> <%= groupTasks.taskOwner %></div>
-      </div>
+<div class="groupCard text-white bg-dark mb-3">
+    <div class="card-header">
+        <h5>Owner: <%= groupTasks.taskOwner %></h5>
+        <%= console.log(groupTasks) %>
+    </div>
+    <div class="card-header">
+        <h6 class="card-title">Task: <%= groupTasks.taskName %></h6>
+        <h6 class="card-title">Details:</h6> <%= groupTasks.taskDetails %>
+    </div>
+    <div class="card-body">
+        <h6 class="card-title">Task Status: <%= groupTasks.taskStatus %></h6>
+    </div>
+    <form action="/update-task-owner/<%= groupTasks.id %>" method="post" class="form-group btn-group taskstatsrow">
+        <select class="form-control taskstats" id="updateOwner<%= groupTasks.id %>" name="taskOwner">
+            <option value="" disabled selected>Change Owner</option>
+            <% owner.forEach(function(owner){ %>
+            <%- include ("../partials/changeowner", {owner: owner}); %>
+            <% }); %>
+        </select>
+        <div>
+            <button type="submit" class="btn btn-success">SAVE</button>
+        </div>
+    </form>
+</div>

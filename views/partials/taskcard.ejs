@@ -1,19 +1,28 @@
 <div class="card text-white bg-dark mb-3">
-    <div class="card-header">
-        <h5 class="card-title">Task:</h5> <%= task.taskName %>
+    <form action="/update-task-status/<%= task.id %>" method="post" class="form-group row">
+        <div class="card-body">
+            <h5 class="card-title">Task:</h5> <input type="text" class="hideBackground form-control" name="taskName" placeholder="<%= task.taskName %>">
+            <h5 class="card-title editTask">Details:</h5> <input type="text" class="hideBackground form-control" name="taskDetails" placeholder="<%= task.taskDetails %>">
+            <h6 class="editTask">Task Status: <%= task.taskStatus %></h6>
+        </div>
+        <div class="card-body">
+            <div class="taskstatsrow">
+            <select class="form-control taskstats" id="taskStatus<%= task.id %>" name="taskStatus">
+                <option value="" disabled selected>Task Status</option>
+                <option value="Not Started">Not Started</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+            </select>
+            <button type="submit" class="btn btn-success" href="#">SAVE</button>
+        </div>
+        </div>
+
+        
+    </form>
+    <div class="delete-button">
+        <form action="/delete-task" method="post">
+            <input type="hidden" name="id" value="<%= task.id %>">
+            <button class="btn btn-danger" type="submit">DELETE TASK</button>
+        </form>
     </div>
-    <div class="card-body">
-        <h5 class="card-title">Details:</h5> <%= task.taskDetails %>
-    </div>
-        <form class="form-group btn-group">
-        <select class="form-control" id="taskStatus" name="taskStatus">
-            <option value="" disabled selected>Task Status</option>
-            <option value="Not Started">Not Started</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Completed">Completed</option>
-        </select>
-        <div>
-    <button type="submit" class="btn btn-primary" href="#">SAVE</button>
-</div>
-</form>
 </div>

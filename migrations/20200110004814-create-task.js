@@ -14,6 +14,9 @@ module.exports = {
       taskDetails: {
         type: Sequelize.STRING
       },
+      taskStatus: {
+        type: Sequelize.STRING
+      },
       taskOwner: {
         type: Sequelize.INTEGER,
         references: {
