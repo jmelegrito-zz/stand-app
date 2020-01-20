@@ -57,17 +57,17 @@ a {
 }
 .taskstatsrow {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
 }
 .hideBackground {
     background: transparent;
 }
-input[type="text"]::placeholder {
+.card input[type="text"]::placeholder {
     color: white;
     opacity: 1;
 }
 
-input[type="text"] {
+.card input[type="text"] {
     color: white;
     opacity: 1;
 }

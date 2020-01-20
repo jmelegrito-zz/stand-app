@@ -124,10 +124,6 @@ app.get('/auth/google/redirect',
     res.redirect('/tasks');
   });
 
-
-
-app.get('/error', function (req, res) { res.send("There was an error logging you in. Please try again later.") });
-
 app.get('/sign-out', function (req, res) {
   if (req.isAuthenticated()) {
     console.log("The user is logging out.");
@@ -156,7 +152,17 @@ app.use(express.static(__dirname + '/public'));
 
 // profile page 
 app.get('/profile', function (req, res) {
-  res.render('pages/profile');
+  const profileDeets = models.user.findOne({
+    where:{
+      id: req.user.id,
+    }
+  })
+  const profileGroups = models.group.findAll({})
+  Promise
+    .all([profileDeets,profileGroups])
+    .then(function(responses){
+      res.render("pages/profile", {user: responses[0], groups: responses[1]})
+    })
 });
 
 // tasks page 
@@ -185,7 +191,7 @@ Promise
 });
 
 app.post('/sign-in',
-  passport.authenticate('local', { failureRedirect: '/error' }),
+  passport.authenticate('local', { failureRedirect: '/' }),
   function (req, res) {
     res.redirect('/tasks');
   });
@@ -237,10 +243,7 @@ app.post("/delete-task", function(req, response){
 
 app.post("/update-task-status/:id", function(req, response){
   models.task.update(
-    { taskStatus: req.body.taskStatus,
-      taskName: req.body.taskName,
-      taskDetails: req.body.taskDetails
-     },
+    req.body,
     { where: { id: req.params.id } }
   ).then(function(){
     response.redirect("/tasks")
@@ -254,6 +257,15 @@ app.post("/update-task-owner/:id", function(req, response){
     { where: { id: req.params.id } }
   ).then(function(){
     response.redirect("/tasks")
+  })
+})
+
+app.post("/update-profile/:id", function(req, response){
+  models.user.update(
+    req.body,
+    { where: { id: req.params.id } }
+  ).then(function(){
+    response.redirect("/profile")
   })
 })
 
