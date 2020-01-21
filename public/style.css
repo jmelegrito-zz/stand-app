@@ -27,8 +27,56 @@ a {
 .card{
     width: 240px;
     padding: 5px;
+    margin-right: 2px;
+}
+.groupCard{
+    width: 220px;
+    padding: 5px;
+    margin-right: 2px;
 }
 .cardDisplay {
     display: flex;
-    justify-content: space-evenly;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+.groupCardDisplay {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+.delete-button {
+    display: flex;
+    justify-content: center;
+}
+.editTask{
+    border: 0;
+    margin-top: 5px;
+}
+.taskstats {
+    width:135px;
+}
+.taskstatsrow {
+    display: flex;
+    justify-content: center;
+}
+.hideBackground {
+    background: transparent;
+}
+.card input[type="text"]::placeholder {
+    color: white;
+    opacity: 1;
+}
+
+.card input[type="text"] {
+    color: white;
+    opacity: 1;
+}
+.groupSelection {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+.ordivider {
+    margin: 10px;
+    width: 100%;
 }

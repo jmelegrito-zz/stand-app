@@ -10,7 +10,9 @@ module.exports = (sequelize, DataTypes) => {
     groupsID: DataTypes.INTEGER
   }, {freezeTableName: true});
   user.associate = function(models) {
-    // associations can be defined here
+    user.hasMany(models.task, {
+      foreignKey: "id"
+    })
   };
   return user;
 };
