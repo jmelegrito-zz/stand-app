@@ -242,7 +242,7 @@ app.post("/new-task", function (req, response){
 })
 
 app.post("/delete-task", function(req, response){
-  models.task.create({
+  models.task.destroy({
     where: {
       id: req.body.id
     }
