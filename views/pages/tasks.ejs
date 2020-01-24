@@ -35,6 +35,9 @@
         </div>
         <div class="taskcards">
           <h3>Current Tasks</h3>
+          <% if (!verifyGroup.groupsID) { %>
+          <%- include ("../partials/displayinstructions"); %>
+          <%  } %>
           <div class="cardDisplay">
             <% tasks.forEach(function(task){ %>
             <%- include ("../partials/taskcard", {task: task}); %>
@@ -46,7 +49,7 @@
         <h3>Group tasks</h3>
         <div class="groupCardDisplay">
           <% if (!verifyGroup.groupsID) { %>
-          <%- include ("../partials/getGroup", {groups: groups}); %>
+          <%- include ("../partials/getgroup", {groups: groups}); %>
           <% } else { groupTask.forEach(function(groupTasks){ %>
           <%- include ("../partials/taskcarddisplay", {groupTasks: groupTasks}); %>
           <% }); %>
