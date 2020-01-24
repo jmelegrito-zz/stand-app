@@ -220,14 +220,26 @@ app.post("/sign-up", function (req, response) {
     });
 });
 
-app.post("/group-sign-up", function (req, response) {
+app.post("/group-sign-up/:id", function (req, response) {
   models.group.create({
     groupName: req.body.groupName
   })
-    .then(function (user) {
-      response.render("/");
+    .then(function (group) {
+      console.log("here")
+      console.log(group.id)
+      console.log(req.params.id)
+      models.user.update(
+        {groupsID: group.id},
+        {where : {id: req.params.id},
+      }).then(function(user){
+        console.log("passed")
+        console.log(user)
+        response.redirect("/tasks")
+      })
+      })
     });
-});
+
+
 
 app.post("/new-task", function (req, response){
   models.task.create({
